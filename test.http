@@ -1,0 +1,42 @@
+GET http://localhost:8080/pets
+
+###
+
+POST http://localhost:8080/pets
+Content-Type: application/json
+
+{
+  "name":"Mini",
+  "age":3,
+  "weight":4.2
+}
+
+###
+
+DELETE http://localhost:8080/pets/2
+
+###
+
+PUT http://localhost:8080/pets/2
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name":"阿肥修改版",
+  "age":5,
+  "weight":6.6
+}
+
+###
+GET http://localhost:8080/pets/1
+
+###
+
+POST http://localhost:8080/pets
+Content-Type: application/json
+
+{
+  "name":"茶茶",
+  "age":1,
+  "weight":2.2
+}
