@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetHealthCloud</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+
+    <h1>PetHealthCloud</h1>
+    <p>Pet Health Management System</p>
+            
+    <div class="content">
+        
+    <div class="card">
+        <h2>My Pets</h2>
+        <button id="loadPetsButton">Load My Pets</button>
+        <div id = "petList">
+            No data.
+        </div>
+    </div>
+
+        <div class="card">
+            <h2>Add Pet</h2>
+
+            <input id="petName" type="text" placeholder="Pet Name">
+            <input id="petAge" type="number" placeholder="Age">
+            <input id="petWeight" type="number" step="0.1" placeholder="Weight">
+
+            <button id="addPetButton">Add Pet</button>
+        </div>
+
+    </div>
+    
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
