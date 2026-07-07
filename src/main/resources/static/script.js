@@ -85,22 +85,22 @@ if (loadPetsButton) {
                     petList.innerHTML += `
                 <div class="pet-item">
                     <p><strong>${pet.name}</strong></p>
-                    <p>Age: ${pet.age}</p>
-                    <p>Weight: ${pet.weight} kg</p>
-                    <p>Vaccine: ${pet.vaccine ?? "-"}</p>
+                    <p>年齡: ${pet.age}</p>
+                    <p>體重: ${pet.weight} kg</p>
+                    <p>疫苗紀錄: ${pet.vaccine ?? "-"}</p>
             
                     <div class="pet-actions">
             
                         <button
                             class="editPetButton"
                             data-id="${pet.id}">
-                            Edit
+                            編輯
                         </button>
             
                         <button
                             class="deletePetButton"
                             data-id="${pet.id}">
-                            Delete
+                            刪除
                         </button>
             
                     </div>
@@ -176,7 +176,7 @@ if (loadPetsButton) {
                         document.getElementById("petWeight").value = pet.weight;
                         document.getElementById("petVaccine").value = pet.vaccine ?? "";
 
-                        addPetButton.textContent = "Update Pet";
+                        addPetButton.textContent = "更新寵物";
 
                     });
 
@@ -246,7 +246,7 @@ if (addPetButton) {
                 document.getElementById("petWeight").value = "";
                 document.getElementById("petVaccine").value = "";
 
-                addPetButton.textContent = "Add Pet";
+                addPetButton.textContent = "新增寵物";
 
                 // 新增成功後自動重新載入
                 loadPetsButton.click();
