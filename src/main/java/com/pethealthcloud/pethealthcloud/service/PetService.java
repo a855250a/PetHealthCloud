@@ -43,6 +43,7 @@ public class PetService {
             response.setName(pet.name);
             response.setAge(pet.age);
             response.setWeight(pet.weight);
+            response.setVaccine(pet.vaccine);
 
             responses.add(response);
 
@@ -59,6 +60,7 @@ public class PetService {
         pet.name = petRequest.getName();
         pet.age = petRequest.getAge();
         pet.weight = petRequest.getWeight();
+        pet.vaccine = petRequest.getVaccine();
 
         pet.setUser(user);
 
@@ -69,6 +71,7 @@ public class PetService {
         response.setName(savedPet.name);
         response.setAge(savedPet.age);
         response.setWeight(savedPet.weight);
+        response.setVaccine(savedPet.vaccine);
         return response;
     }
     // 根據 ID 刪除寵物資料
@@ -112,6 +115,7 @@ public class PetService {
         pet.name = petRequest.getName();
         pet.age = petRequest.getAge();
         pet.weight = petRequest.getWeight();
+        pet.vaccine = petRequest.getVaccine();
 
         Pet savedPet = petRepository.save(pet);
         PetResponse response = new PetResponse();
@@ -120,6 +124,7 @@ public class PetService {
         response.setName(savedPet.name);
         response.setAge(savedPet.age);
         response.setWeight(savedPet.weight);
+        response.setVaccine(savedPet.vaccine);
 
         return response;
 
@@ -147,6 +152,7 @@ public class PetService {
         response.setName(pet.name);
         response.setAge(pet.age);
         response.setWeight(pet.weight);
+        response.setVaccine(pet.vaccine);
         return response;
     }
 
@@ -184,6 +190,7 @@ public class PetService {
             response.setName(pet.name);
             response.setAge(pet.age);
             response.setWeight(pet.weight);
+            response.setVaccine(pet.vaccine);
 
             responses.add(response);
         }

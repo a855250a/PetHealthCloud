@@ -87,6 +87,7 @@ if (loadPetsButton) {
                     <p><strong>${pet.name}</strong></p>
                     <p>Age: ${pet.age}</p>
                     <p>Weight: ${pet.weight} kg</p>
+                    <p>Vaccine: ${pet.vaccine ?? "-"}</p>
             
                     <div class="pet-actions">
             
@@ -173,6 +174,7 @@ if (loadPetsButton) {
                         document.getElementById("petName").value = pet.name;
                         document.getElementById("petAge").value = pet.age;
                         document.getElementById("petWeight").value = pet.weight;
+                        document.getElementById("petVaccine").value = pet.vaccine ?? "";
 
                         addPetButton.textContent = "Update Pet";
 
@@ -200,11 +202,13 @@ if (addPetButton) {
         const petName = document.getElementById("petName").value;
         const petAge = document.getElementById("petAge").value;
         const petWeight = document.getElementById("petWeight").value;
+        const petVaccine = document.getElementById("petVaccine").value;
 
         console.log("Add Pet Clicked");
         console.log("Name:", petName);
         console.log("Age:", petAge);
         console.log("Weight:", petWeight);
+        console.log("Vaccine:",petVaccine);
 
         const token = localStorage.getItem("token");
 
@@ -225,7 +229,8 @@ if (addPetButton) {
             body: JSON.stringify({
                 name: petName,
                 age: Number(petAge),
-                weight: Number(petWeight)
+                weight: Number(petWeight),
+                vaccine:petVaccine
             })
         })
             .then(response => response.json())
@@ -239,6 +244,7 @@ if (addPetButton) {
                 document.getElementById("petName").value = "";
                 document.getElementById("petAge").value = "";
                 document.getElementById("petWeight").value = "";
+                document.getElementById("petVaccine").value = "";
 
                 addPetButton.textContent = "Add Pet";
 

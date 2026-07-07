@@ -13,6 +13,8 @@ public class Pet {
     public String name;
     public int age;
     public double weight;
+    public String vaccine;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")

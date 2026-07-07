@@ -31,5 +31,11 @@ public class PetResponse {
     )
     private double weight;
 
+    @Schema(
+            description = "疫苗紀錄",
+            example = "三合一疫苗"
+    )
+    private String vaccine;
+
 
 }

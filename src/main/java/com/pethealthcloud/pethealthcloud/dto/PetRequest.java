@@ -30,4 +30,10 @@ public class PetRequest {
     @Min(value = 0, message = "體重不能小於0")
     private double weight;
 
+    @Schema(
+            description = "疫苗紀錄",
+            example = "三合一疫苗"
+    )
+    private String vaccine;
+
 }
