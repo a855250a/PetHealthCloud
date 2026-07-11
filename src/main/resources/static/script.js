@@ -8,6 +8,16 @@ let  editPetId = null;
 
 const loginButton = document.getElementById("loginButton");
 
+const passwordInput = document.getElementById("password");
+
+if (passwordInput) {
+    passwordInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            loginButton.click();
+        }
+    });
+}
+
 console.log(loginButton);
 
 if (loginButton) {
@@ -88,6 +98,12 @@ if (loadPetsButton) {
                     <p>年齡: ${pet.age}</p>
                     <p>體重: ${pet.weight} kg</p>
                     <p>疫苗紀錄: ${pet.vaccine ?? "-"}</p>
+                    ${pet.photo ? `
+                    <img
+                        src="${pet.photo}"
+                        class="pet-photo"
+                        alt="${pet.name}">
+                    ` : ""}
             
                     <div class="pet-actions">
             
@@ -203,6 +219,7 @@ if (addPetButton) {
         const petAge = document.getElementById("petAge").value;
         const petWeight = document.getElementById("petWeight").value;
         const petVaccine = document.getElementById("petVaccine").value;
+        const petPhoto = document.getElementById("petPhoto").files[0];
 
         console.log("Add Pet Clicked");
         console.log("Name:", petName);
@@ -220,38 +237,64 @@ if (addPetButton) {
             ? "POST"
             : "PUT";
 
-        fetch(url, {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
-            },
-            body: JSON.stringify({
-                name: petName,
-                age: Number(petAge),
-                weight: Number(petWeight),
-                vaccine:petVaccine
+        if (petPhoto) {
+
+            const formData = new FormData();
+            formData.append("file", petPhoto);
+
+            fetch("/upload", {
+                method: "POST",
+                body: formData
             })
-        })
-            .then(response => response.json())
-            .then(data => {
+                .then(response => response.text())
+                .then(photoPath => {
 
-                console.log("Add Pet Response:", data);
+                    savePet(photoPath);
 
-                //回復新增模式
-                editPetId = null;
+                });
 
-                document.getElementById("petName").value = "";
-                document.getElementById("petAge").value = "";
-                document.getElementById("petWeight").value = "";
-                document.getElementById("petVaccine").value = "";
+        } else {
 
-                addPetButton.textContent = "新增寵物";
+            savePet("");
 
-                // 新增成功後自動重新載入
-                loadPetsButton.click();
+        }
 
-            });
+        function savePet(photoPath) {
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    name: petName,
+                    age: Number(petAge),
+                    weight: Number(petWeight),
+                    vaccine: petVaccine,
+                    photo: photoPath
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log("Add Pet Response:", data);
+
+                    editPetId = null;
+
+                    document.getElementById("petName").value = "";
+                    document.getElementById("petAge").value = "";
+                    document.getElementById("petWeight").value = "";
+                    document.getElementById("petVaccine").value = "";
+                    document.getElementById("petPhoto").value = "";
+
+                    addPetButton.textContent = "新增寵物";
+
+                    loadPetsButton.click();
+
+                });
+
+        }
 
     });
 

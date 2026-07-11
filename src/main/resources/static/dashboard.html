@@ -29,7 +29,22 @@
             <input id="petName" type="text" placeholder="寵物名稱">
             <input id="petAge" type="number" placeholder="年齡">
             <input id="petWeight" type="number" step="0.1" placeholder="體重(kg)">
-            <input id="petVaccine" type="text" placeholder="疫苗紀錄">
+            <label for="petVaccine">疫苗紀錄</label>
+
+            <select id="petVaccine">
+                <option value="">請選擇疫苗</option>
+                <option value="三合一疫苗">三合一疫苗</option>
+                <option value="五合一疫苗">五合一疫苗</option>
+                <option value="八合一疫苗">八合一疫苗</option>
+                <option value="狂犬病疫苗">狂犬病疫苗</option>
+            </select>
+
+            <label for="petPhoto">寵物照片</label>
+
+            <input
+                    id="petPhoto"
+                    type="file"
+                    accept="image/*">
 
             <button id="addPetButton">新增寵物</button>
         </div>
