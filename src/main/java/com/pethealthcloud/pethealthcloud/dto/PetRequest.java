@@ -36,4 +36,10 @@ public class PetRequest {
     )
     private String vaccine;
 
+    @Schema(
+            description = "寵物照片",
+            example = "uploads/chacha.jpg"
+    )
+    private String photo;
+
 }

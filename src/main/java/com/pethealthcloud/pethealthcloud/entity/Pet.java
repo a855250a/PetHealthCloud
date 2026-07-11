@@ -14,6 +14,7 @@ public class Pet {
     public int age;
     public double weight;
     public String vaccine;
+    public String photo;
 
 
     @ManyToOne

@@ -37,5 +37,11 @@ public class PetResponse {
     )
     private String vaccine;
 
+    @Schema(
+            description = "寵物照片",
+            example = "uplodas/chacha.jpg"
+    )
+    private String photo;
+
 
 }
