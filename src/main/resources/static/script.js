@@ -330,8 +330,6 @@ if (Array.isArray(data) && data.length > 0) {
 
                 });
 
-            });
-
     });
 
 }
