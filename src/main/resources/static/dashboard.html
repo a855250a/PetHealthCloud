@@ -3,57 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetHealthCloud</title>
+
+    <title>TeaCat｜寵物健康管理</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
 
-    <h1>PetHealthCloud</h1>
-    <p>Pet Health Management System</p>
+<div class="container">
 
-    <button id="logoutButton">登出</button>
-            
-    <div class="content">
-        
-    <div class="card">
-        <h2>我的寵物</h2>
-        <button id="loadPetsButton">載入我的寵物</button>
-        <div id = "petList">
-            No data.
+    <!-- =========================
+         Header
+    ========================== -->
+    <header class="dashboard-header">
+
+        <div>
+            <h1>🐾 TeaCat</h1>
+            <p>Pet Health, Made Simple.</p>
         </div>
-    </div>
 
-        <div class="card">
-            <h2>新增寵物</h2>
+        <button id="logoutButton" class="logout-button">
+            登出
+        </button>
 
-            <input id="petName" type="text" placeholder="寵物名稱">
-            <input id="petAge" type="number" placeholder="年齡">
-            <input id="petWeight" type="number" step="0.1" placeholder="體重(kg)">
-            <label for="petVaccine">疫苗紀錄</label>
+    </header>
 
-            <select id="petVaccine">
-                <option value="">請選擇疫苗</option>
-                <option value="三合一疫苗">三合一疫苗</option>
-                <option value="五合一疫苗">五合一疫苗</option>
-                <option value="八合一疫苗">八合一疫苗</option>
-                <option value="狂犬病疫苗">狂犬病疫苗</option>
-            </select>
 
-            <label for="petPhoto">寵物照片</label>
+    <!-- =========================
+         Welcome
+    ========================== -->
+    <section class="welcome-section">
+
+        <h2>寵物健康管理中心</h2>
+
+        <p>
+            記錄毛孩的健康變化，讓每一次照顧都有跡可循。
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         Pet Profile
+    ========================== -->
+    <section class="card pet-profile-card">
+
+        <div class="section-header">
+
+            <div>
+                <span class="section-label">MY PET</span>
+                <h2>我的寵物</h2>
+            </div>
+
+            <button id="loadPetsButton">
+                重新整理
+            </button>
+
+        </div>
+
+        <div id="petList">
+            正在等待寵物資料...
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         Health Overview
+    ========================== -->
+    <section>
+
+        <div class="section-title">
+            <h2>健康概況</h2>
+            <p>快速掌握毛孩目前的健康資訊</p>
+        </div>
+
+        <div class="health-grid">
+
+            <div class="card health-card">
+                <span class="health-icon">⚖️</span>
+                <p>目前體重</p>
+                <h3>-- kg</h3>
+            </div>
+
+            <div class="card health-card">
+                <span class="health-icon">💉</span>
+                <p>疫苗紀錄</p>
+                <h3>尚無資料</h3>
+            </div>
+
+            <div class="card health-card">
+                <span class="health-icon">📋</span>
+                <p>健康紀錄</p>
+                <h3>0 筆</h3>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         Health Trend
+    ========================== -->
+    <section class="card">
+
+        <div class="section-title">
+            <h2>📈 健康趨勢</h2>
+            <p>追蹤體重與健康狀態的長期變化</p>
+        </div>
+
+        <div class="empty-state">
+            <p>目前還沒有足夠的健康資料</p>
+            <span>新增健康紀錄後，這裡會顯示趨勢。</span>
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         Medical Records
+    ========================== -->
+    <section class="card">
+
+        <div class="section-title">
+            <h2>📋 最近健康紀錄</h2>
+            <p>疫苗、看診與檢驗紀錄</p>
+        </div>
+
+        <div class="empty-state">
+            <p>目前尚無健康紀錄</p>
+            <span>未來可以在這裡查看茶茶的健康時間軸。</span>
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TeaCat AI
+    ========================== -->
+    <section class="card ai-card">
+
+        <div class="ai-content">
+
+            <div>
+                <span class="section-label">TEACAT AI</span>
+
+                <h2>🤖 AI 健康助理</h2>
+
+                <p>
+                    看不懂獸醫的病例或英文檢驗報告？
+                    上傳醫療文件，TeaCat 將協助整理重要資訊。
+                </p>
+            </div>
+
+            <button type="button" disabled>
+                上傳醫療報告
+            </button>
+
+        </div>
+
+        <small>
+            AI 分析功能開發中
+        </small>
+
+    </section>
+
+
+    <!-- =========================
+         Add Pet
+    ========================== -->
+    <section class="card add-pet-card">
+
+        <div class="section-title">
+            <h2>＋ 新增寵物</h2>
+            <p>建立新的寵物健康檔案</p>
+        </div>
+
+        <div class="pet-form">
 
             <input
-                    id="petPhoto"
-                    type="file"
-                    accept="image/*">
+                id="petName"
+                type="text"
+                placeholder="寵物名稱"
+            >
 
-            <button id="addPetButton">新增寵物</button>
+            <input
+                id="petAge"
+                type="number"
+                placeholder="年齡"
+            >
+
+            <input
+                id="petWeight"
+                type="number"
+                step="0.1"
+                placeholder="體重 (kg)"
+            >
+
+            <label for="petVaccine">
+                疫苗紀錄
+            </label>
+
+            <select id="petVaccine">
+
+                <option value="">
+                    請選擇疫苗
+                </option>
+
+                <option value="三合一疫苗">
+                    三合一疫苗
+                </option>
+
+                <option value="五合一疫苗">
+                    五合一疫苗
+                </option>
+
+                <option value="八合一疫苗">
+                    八合一疫苗
+                </option>
+
+                <option value="狂犬病疫苗">
+                    狂犬病疫苗
+                </option>
+
+            </select>
+
+            <label for="petPhoto">
+                寵物照片
+            </label>
+
+            <input
+                id="petPhoto"
+                type="file"
+                accept="image/*"
+            >
+
+            <button id="addPetButton">
+                新增寵物
+            </button>
+
         </div>
 
-    </div>
-    
-    </div>
-    <script src="script.js?v=0.6"></script>
+    </section>
+
+</div>
+
+
+<script src="script.js?v=0.7"></script>
+
 </body>
 </html>
