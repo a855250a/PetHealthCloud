@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>TeaCat｜寵物健康管理</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=0.7.1">
 </head>
 
 <body>
@@ -18,11 +19,40 @@
     ========================== -->
     <header class="dashboard-header">
 
-        <div>
-            <h1>🐾 TeaCat</h1>
-            <p>Pet Health, Made Simple.</p>
-        </div>
+        <!-- TeaCat Brand -->
+        <a href="/dashboard.html" class="brand">
 
+            <div>
+                <h1>🐾 TeaCat</h1>
+                <p>Pet Health, Made Simple.</p>
+            </div>
+
+        </a>
+
+
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+
+            <a href="/dashboard.html" class="active">
+                首頁
+            </a>
+
+            <a href="/pets.html">
+                我的寵物
+            </a>
+
+            <a href="/records.html">
+                健康紀錄
+            </a>
+
+            <a href="/ai.html">
+                TeaCat AI
+            </a>
+
+        </nav>
+
+
+        <!-- Logout -->
         <button id="logoutButton" class="logout-button">
             登出
         </button>
@@ -52,9 +82,17 @@
         <div class="section-header">
 
             <div>
-                <span class="section-label">MY PET</span>
-                <h2>我的寵物</h2>
+
+                <span class="section-label">
+                    MY PET
+                </span>
+
+                <h2>
+                    我的寵物
+                </h2>
+
             </div>
+
 
             <button id="loadPetsButton">
                 重新整理
@@ -62,8 +100,13 @@
 
         </div>
 
+
         <div id="petList">
-            正在等待寵物資料...
+
+            <p class="loading">
+                正在載入寵物資料...
+            </p>
+
         </div>
 
     </section>
@@ -75,28 +118,71 @@
     <section>
 
         <div class="section-title">
-            <h2>健康概況</h2>
-            <p>快速掌握毛孩目前的健康資訊</p>
+
+            <h2>
+                健康概況
+            </h2>
+
+            <p>
+                快速掌握毛孩目前的健康資訊
+            </p>
+
         </div>
+
 
         <div class="health-grid">
 
+            <!-- Weight -->
             <div class="card health-card">
-                <span class="health-icon">⚖️</span>
-                <p>目前體重</p>
-                <h3 id="currentWeight">-- kg</h3>
+
+                <span class="health-icon">
+                    ⚖️
+                </span>
+
+                <p>
+                    目前體重
+                </p>
+
+                <h3 id="currentWeight">
+                    -- kg
+                </h3>
+
             </div>
 
+
+            <!-- Vaccine -->
             <div class="card health-card">
-                <span class="health-icon">💉</span>
-                <p>疫苗紀錄</p>
-                <h3 id="currentVaccine">尚無資料</h3>
+
+                <span class="health-icon">
+                    💉
+                </span>
+
+                <p>
+                    疫苗紀錄
+                </p>
+
+                <h3 id="currentVaccine">
+                    尚無資料
+                </h3>
+
             </div>
 
+
+            <!-- Records -->
             <div class="card health-card">
-                <span class="health-icon">📋</span>
-                <p>健康紀錄</p>
-                <h3 id="healthRecordCount">0 筆</h3>
+
+                <span class="health-icon">
+                    📋
+                </span>
+
+                <p>
+                    健康紀錄
+                </p>
+
+                <h3 id="healthRecordCount">
+                    0 筆
+                </h3>
+
             </div>
 
         </div>
@@ -110,31 +196,61 @@
     <section class="card">
 
         <div class="section-title">
-            <h2>📈 健康趨勢</h2>
-            <p>追蹤體重與健康狀態的長期變化</p>
+
+            <h2>
+                📈 健康趨勢
+            </h2>
+
+            <p>
+                追蹤體重與健康狀態的長期變化
+            </p>
+
         </div>
 
+
         <div class="empty-state">
-            <p>目前還沒有足夠的健康資料</p>
-            <span>新增健康紀錄後，這裡會顯示趨勢。</span>
+
+            <p>
+                目前還沒有足夠的健康資料
+            </p>
+
+            <span>
+                新增健康紀錄後，這裡會顯示趨勢。
+            </span>
+
         </div>
 
     </section>
 
 
     <!-- =========================
-         Medical Records
+         Recent Health Records
     ========================== -->
     <section class="card">
 
         <div class="section-title">
-            <h2>📋 最近健康紀錄</h2>
-            <p>疫苗、看診與檢驗紀錄</p>
+
+            <h2>
+                📋 最近健康紀錄
+            </h2>
+
+            <p>
+                疫苗、看診與檢驗紀錄
+            </p>
+
         </div>
 
+
         <div class="empty-state">
-            <p>目前尚無健康紀錄</p>
-            <span>未來可以在這裡查看茶茶的健康時間軸。</span>
+
+            <p>
+                目前尚無健康紀錄
+            </p>
+
+            <span>
+                未來可以在這裡查看茶茶的健康時間軸。
+            </span>
+
         </div>
 
     </section>
@@ -148,15 +264,22 @@
         <div class="ai-content">
 
             <div>
-                <span class="section-label">TEACAT AI</span>
 
-                <h2>🤖 AI 健康助理</h2>
+                <span class="section-label">
+                    TEACAT AI
+                </span>
+
+                <h2>
+                    🤖 AI 健康助理
+                </h2>
 
                 <p>
                     看不懂獸醫的病例或英文檢驗報告？
                     上傳醫療文件，TeaCat 將協助整理重要資訊。
                 </p>
+
             </div>
+
 
             <button type="button" disabled>
                 上傳醫療報告
@@ -164,94 +287,57 @@
 
         </div>
 
+
         <small>
             AI 分析功能開發中
         </small>
 
     </section>
 
-
-    <!-- =========================
-         Add Pet
-    ========================== -->
-    <section class="card add-pet-card">
-
-        <div class="section-title">
-            <h2>＋ 新增寵物</h2>
-            <p>建立新的寵物健康檔案</p>
-        </div>
-
-        <div class="pet-form">
-
-            <input
-                id="petName"
-                type="text"
-                placeholder="寵物名稱"
-            >
-
-            <input
-                id="petAge"
-                type="number"
-                placeholder="年齡"
-            >
-
-            <input
-                id="petWeight"
-                type="number"
-                step="0.1"
-                placeholder="體重 (kg)"
-            >
-
-            <label for="petVaccine">
-                疫苗紀錄
-            </label>
-
-            <select id="petVaccine">
-
-                <option value="">
-                    請選擇疫苗
-                </option>
-
-                <option value="三合一疫苗">
-                    三合一疫苗
-                </option>
-
-                <option value="五合一疫苗">
-                    五合一疫苗
-                </option>
-
-                <option value="八合一疫苗">
-                    八合一疫苗
-                </option>
-
-                <option value="狂犬病疫苗">
-                    狂犬病疫苗
-                </option>
-
-            </select>
-
-            <label for="petPhoto">
-                寵物照片
-            </label>
-
-            <input
-                id="petPhoto"
-                type="file"
-                accept="image/*"
-            >
-
-            <button id="addPetButton">
-                新增寵物
-            </button>
-
-        </div>
-
-    </section>
-
 </div>
 
 
-<script src="script.js?v=0.7"></script>
+<!-- =========================
+     Mobile Bottom Navigation
+========================= -->
+<nav class="mobile-bottom-nav">
+
+    <a href="/dashboard.html" class="active">
+
+        <span>🏠</span>
+        <small>首頁</small>
+
+    </a>
+
+
+    <a href="/pets.html">
+
+        <span>🐾</span>
+        <small>寵物</small>
+
+    </a>
+
+
+    <a href="/records.html">
+
+        <span>📋</span>
+        <small>紀錄</small>
+
+    </a>
+
+
+    <a href="/ai.html">
+
+        <span>✨</span>
+        <small>AI</small>
+
+    </a>
+
+</nav>
+
+
+<script src="script.js?v=0.7.1"></script>
 
 </body>
+
 </html>
