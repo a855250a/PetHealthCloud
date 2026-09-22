@@ -224,40 +224,48 @@ if (Array.isArray(data) && data.length > 0) {
 
                 data.forEach(function (pet) {
 
-                    petList.innerHTML += `
-                <div class="pet-item">
-                    <p><strong>${pet.name}</strong></p>
-                    <p>年齡: ${pet.age}</p>
-                    <p>體重: ${pet.weight} kg</p>
-                    <p>疫苗紀錄: ${pet.vaccine ?? "-"}</p>
-                    ${pet.photo ? `
-                    <img
-                        src="${pet.photo}"
-                        class="pet-photo"
-                        alt="${pet.name}">
-                    ` : ""}
-            
-                    <div class="pet-actions">
-            
-                        <button
-                            class="editPetButton"
-                            data-id="${pet.id}">
-                            編輯
-                        </button>
-            
-                        <button
-                            class="deletePetButton"
-                            data-id="${pet.id}">
-                            刪除
-                        </button>
-            
-                    </div>
-            
-                    <hr>
-                </div>
-            `;
+    petList.innerHTML += `
+        <div class="pet-item">
 
-                });
+            <div class="pet-avatar">
+                ${
+                    pet.photo
+                        ? `<img src="${pet.photo}" class="pet-photo" alt="${pet.name}">`
+                        : `<div class="pet-photo-placeholder">🐱</div>`
+                }
+            </div>
+
+            <div class="pet-info">
+                <div class="pet-name-row">
+                    <h3>${pet.name}</h3>
+                    <span class="pet-status">健康資料</span>
+                </div>
+
+                <div class="pet-details">
+                    <span>🎂 ${pet.age} 歲</span>
+                    <span>⚖️ ${pet.weight} kg</span>
+                    <span>💉 ${pet.vaccine ?? "尚無疫苗資料"}</span>
+                </div>
+            </div>
+
+            <div class="pet-actions">
+                <button
+                    class="editPetButton btn-secondary"
+                    data-id="${pet.id}">
+                    編輯
+                </button>
+
+                <button
+                    class="deletePetButton btn-danger"
+                    data-id="${pet.id}">
+                    刪除
+                </button>
+            </div>
+
+        </div>
+    `;
+
+});
 
                 // 綁定 Delete Button
                 const deleteButtons = document.querySelectorAll(".deletePetButton");
