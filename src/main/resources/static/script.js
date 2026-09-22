@@ -58,6 +58,59 @@ if (loginButton) {
 
 }
 
+// =========================
+// Guest Login
+// =========================
+
+const guestLoginButton = document.getElementById("guestLoginButton");
+
+if (guestLoginButton) {
+
+    guestLoginButton.addEventListener("click", function () {
+
+        guestLoginButton.disabled = true;
+        guestLoginButton.textContent = "登入中...";
+
+        fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: "demo@pethealthcloud.com",
+                password: "Demo123456"
+            })
+        })
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("訪客登入失敗");
+            }
+
+            return response.json();
+
+        })
+        .then(data => {
+
+            localStorage.setItem("token", data.token);
+
+            window.location.href = "/dashboard.html";
+
+        })
+        .catch(error => {
+
+            console.error("Guest Login Error:", error);
+
+            alert("訪客登入暫時無法使用");
+
+            guestLoginButton.disabled = false;
+            guestLoginButton.textContent = "🐾 訪客體驗登入";
+
+        });
+
+    });
+
+}
 
 // =========================
 // Dashboard
