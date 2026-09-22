@@ -267,7 +267,6 @@ label{
     margin-bottom:7px;
 }
 
-
 /* ===========================
    Pet Profile
 =========================== */
@@ -278,98 +277,140 @@ label{
 
 .pet-item{
     display:flex;
-    gap:22px;
     align-items:center;
+    gap:22px;
 
     background:#fbfaf8;
+    border:1px solid var(--border);
+    border-radius:18px;
 
-    border-radius:16px;
-    padding:20px;
+    padding:22px;
     margin-top:15px;
 
-    border:1px solid var(--border);
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
 }
+
+.pet-item:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 22px rgba(0,0,0,.06);
+}
+
+
+/* ===========================
+   Pet Avatar
+=========================== */
+
+.pet-avatar{
+    flex-shrink:0;
+}
+
+.pet-photo{
+    width:90px;
+    height:90px;
+
+    object-fit:cover;
+    border-radius:50%;
+
+    border:4px solid white;
+
+    box-shadow:
+        0 4px 14px rgba(0,0,0,.10);
+}
+
+.pet-photo-placeholder{
+    width:90px;
+    height:90px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:var(--primary-soft);
+
+    border-radius:50%;
+    border:4px solid white;
+
+    font-size:38px;
+
+    box-shadow:
+        0 4px 14px rgba(0,0,0,.08);
+}
+
+
+/* ===========================
+   Pet Information
+=========================== */
 
 .pet-info{
     flex:1;
+    min-width:0;
 }
 
-.pet-info h3{
-    font-size:21px;
-    margin-bottom:5px;
+.pet-name-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-bottom:12px;
 }
 
-.pet-info p{
+.pet-name-row h3{
+    font-size:22px;
+    color:var(--text);
+    margin:0;
+}
+
+.pet-status{
+    display:inline-flex;
+    align-items:center;
+
+    background:var(--primary-soft);
+    color:var(--primary);
+
+    border-radius:999px;
+
+    padding:4px 10px;
+
+    font-size:12px;
+    font-weight:600;
+}
+
+.pet-details{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+
+    gap:10px 20px;
+
     color:var(--sub);
-    margin:4px 0;
+    font-size:14px;
 }
+
+.pet-details span{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+}
+
+
+/* ===========================
+   Pet Actions
+=========================== */
 
 .pet-actions{
     display:flex;
+    align-items:center;
     gap:9px;
-    flex-wrap:wrap;
+
+    flex-shrink:0;
 }
 
-
-/* ===========================
-   Pet Photo
-=========================== */
-
-.pet-photo{
-    width:105px;
-    height:105px;
-
-    object-fit:cover;
-
-    border-radius:18px;
-
-    border:3px solid white;
-
-    box-shadow:
-        0 5px 15px rgba(0,0,0,.10);
+.pet-actions button{
+    padding:10px 16px;
 }
 
-
-/* ===========================
-   Health Overview
-=========================== */
-
-.health-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:18px;
-
-    margin-bottom:26px;
-}
-
-.health-card{
-    margin:0;
-    min-height:150px;
-}
-
-.health-card:hover{
-    transform:translateY(-3px);
-}
-
-.health-icon{
-    display:block;
-    font-size:25px;
-    margin-bottom:18px;
-}
-
-.health-card p{
-    color:var(--sub);
-    font-size:14px;
-    margin-bottom:5px;
-}
-
-.health-card h3{
-    font-size:20px;
-    color:var(--text);
-}
 
 
 /* ===========================
@@ -557,19 +598,7 @@ label{
         align-items:flex-start;
     }
 
-    .pet-item{
-        flex-direction:column;
-        text-align:center;
-    }
-
-    .pet-photo{
-        width:130px;
-        height:130px;
-    }
-
-    .pet-actions{
-        justify-content:center;
-    }
+    
 }
 
 
@@ -618,5 +647,70 @@ label{
 
     button{
         padding:11px 16px;
+    }
+}
+
+/* ===========================
+   Pet Card Responsive
+=========================== */
+
+@media(max-width:768px){
+
+    .pet-item{
+        align-items:flex-start;
+    }
+
+    .pet-photo,
+    .pet-photo-placeholder{
+        width:78px;
+        height:78px;
+    }
+
+    .pet-photo-placeholder{
+        font-size:32px;
+    }
+
+    .pet-details{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+    }
+}
+
+@media(max-width:600px){
+
+    .pet-item{
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+
+        padding:22px 18px;
+    }
+
+    .pet-photo,
+    .pet-photo-placeholder{
+        width:100px;
+        height:100px;
+    }
+
+    .pet-photo-placeholder{
+        font-size:40px;
+    }
+
+    .pet-name-row{
+        justify-content:center;
+    }
+
+    .pet-details{
+        align-items:center;
+    }
+
+    .pet-actions{
+        width:100%;
+        margin-top:5px;
+    }
+
+    .pet-actions button{
+        flex:1;
     }
 }
