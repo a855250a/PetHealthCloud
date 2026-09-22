@@ -1,254 +1,481 @@
-console.log("script.js loaded");
+console.log("TeaCat script.js loaded");
 
 let editPetId = null;
+
+
+// =========================
+// Page Detection
+// =========================
+
+const currentPath = window.location.pathname;
+
+const isDashboardPage = currentPath.includes("dashboard.html");
+const isPetsPage = currentPath.includes("pets.html");
+const isRecordsPage = currentPath.includes("records.html");
+const isAiPage = currentPath.includes("ai.html");
+
 
 // =========================
 // Authentication Guard
 // =========================
 
-const isDashboard = window.location.pathname.includes("dashboard.html");
+const protectedPages = [
+    "dashboard.html",
+    "pets.html",
+    "records.html",
+    "ai.html"
+];
 
-if (isDashboard) {
+const isProtectedPage = protectedPages.some(function (page) {
+    return currentPath.includes(page);
+});
+
+if (isProtectedPage) {
+
     const token = localStorage.getItem("token");
 
-    console.log("Auth Guard Token:", token);
-
     if (!token || token === "null" || token === "undefined") {
-        console.log("No valid token, redirecting to login...");
+
         localStorage.removeItem("token");
+
         window.location.replace("/login.html");
     }
 }
+
 
 // =========================
 // Login
 // =========================
 
 const loginButton = document.getElementById("loginButton");
-
 const passwordInput = document.getElementById("password");
 
-if (passwordInput) {
+if (passwordInput && loginButton) {
+
     passwordInput.addEventListener("keydown", function (event) {
+
         if (event.key === "Enter") {
             loginButton.click();
         }
+
     });
 }
 
-console.log(loginButton);
 
 if (loginButton) {
 
     loginButton.addEventListener("click", function () {
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
 
-        console.log("login button clicked");
-        console.log(email);
-        console.log(password);
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!email || !password) {
+
+            alert("請輸入 Email 與密碼");
+
+            return;
+        }
+
+
+        loginButton.disabled = true;
+        loginButton.textContent = "登入中...";
+
 
         fetch("/login", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        email: email,
-        password: password
-    })
-})
-.then(async response => {
 
-    const data = await response.json();
+            method: "POST",
 
-    if (!response.ok || !data.token) {
-        throw new Error(data.message || "帳號或密碼錯誤");
-    }
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    return data;
-})
-.then(data => {
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
 
-    console.log("Login Success");
+        })
 
-    localStorage.setItem("token", data.token);
+        .then(async function (response) {
 
-    window.location.href = "/dashboard.html";
+            const data = await response.json();
 
-})
-.catch(error => {
+            if (!response.ok || !data.token) {
 
-    console.error("Login Error:", error);
+                throw new Error(
+                    data.message || "帳號或密碼錯誤"
+                );
+            }
 
-    localStorage.removeItem("token");
+            return data;
+        })
 
-    alert("登入失敗，請確認帳號與密碼");
+        .then(function (data) {
 
-});
+            localStorage.setItem(
+                "token",
+                data.token
+            );
+
+            window.location.href =
+                "/dashboard.html";
+
+        })
+
+        .catch(function (error) {
+
+            console.error(
+                "Login Error:",
+                error
+            );
+
+            localStorage.removeItem("token");
+
+            alert(
+                "登入失敗，請確認帳號與密碼"
+            );
+
+            loginButton.disabled = false;
+            loginButton.textContent = "登入";
+
+        });
 
     });
-
 }
+
 
 // =========================
 // Guest Login
 // =========================
 
-const guestLoginButton = document.getElementById("guestLoginButton");
+const guestLoginButton =
+    document.getElementById("guestLoginButton");
+
 
 if (guestLoginButton) {
 
-    guestLoginButton.addEventListener("click", function () {
+    guestLoginButton.addEventListener(
+        "click",
+        function () {
 
-        guestLoginButton.disabled = true;
-        guestLoginButton.textContent = "登入中...";
+            guestLoginButton.disabled = true;
+            guestLoginButton.textContent =
+                "登入中...";
 
-        fetch("/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: "demo@pethealthcloud.com",
-                password: "Demo123456"
+
+            fetch("/login", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    email:
+                        "demo@pethealthcloud.com",
+                    password:
+                        "Demo123456"
+                })
+
             })
-        })
-        .then(response => {
 
-            if (!response.ok) {
-                throw new Error("訪客登入失敗");
-            }
+            .then(async function (response) {
 
-            return response.json();
+                const data =
+                    await response.json();
 
-        })
-        .then(data => {
+                if (
+                    !response.ok ||
+                    !data.token
+                ) {
 
-            localStorage.setItem("token", data.token);
+                    throw new Error(
+                        "訪客登入失敗"
+                    );
+                }
 
-            window.location.href = "/dashboard.html";
+                return data;
+            })
 
-        })
-        .catch(error => {
+            .then(function (data) {
 
-            console.error("Guest Login Error:", error);
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
 
-            alert("訪客登入暫時無法使用");
+                window.location.href =
+                    "/dashboard.html";
 
-            guestLoginButton.disabled = false;
-            guestLoginButton.textContent = "🐾 訪客體驗登入";
+            })
 
-        });
+            .catch(function (error) {
 
-    });
+                console.error(
+                    "Guest Login Error:",
+                    error
+                );
 
+                localStorage.removeItem(
+                    "token"
+                );
+
+                alert(
+                    "訪客登入暫時無法使用"
+                );
+
+                guestLoginButton.disabled =
+                    false;
+
+                guestLoginButton.textContent =
+                    "🐾 訪客體驗登入";
+
+            });
+
+        }
+    );
 }
 
+
 // =========================
-// Dashboard
+// Logout
 // =========================
 
-const logoutButton = document.getElementById("logoutButton");
+const logoutButton =
+    document.getElementById("logoutButton");
+
 
 if (logoutButton) {
-    logoutButton.addEventListener("click", function () {
-        localStorage.removeItem("token");
-        window.location.href = "/login.html";
-    });
+
+    logoutButton.addEventListener(
+        "click",
+        function () {
+
+            localStorage.removeItem("token");
+
+            window.location.href =
+                "/login.html";
+        }
+    );
 }
 
-const loadPetsButton = document.getElementById("loadPetsButton");
+
+// =========================
+// Load Pets
+// =========================
+
+const loadPetsButton =
+    document.getElementById("loadPetsButton");
+
 
 if (loadPetsButton) {
 
-    loadPetsButton.addEventListener("click", loadPets);
+    loadPetsButton.addEventListener(
+        "click",
+        loadPets
+    );
 
-    // 進入 Dashboard 後自動載入寵物
+    // Dashboard / Pets 頁面進入後自動載入
     loadPets();
 }
 
+
 function loadPets() {
 
-    console.log("Load My Pets");
+    const token =
+        localStorage.getItem("token");
 
-        const token = localStorage.getItem("token");
+    const petList =
+        document.getElementById("petList");
 
-        console.log("Token:", token);
 
-        fetch("/pets", {
-            method: "GET",
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-
-                console.log("Pets:", data);
-
-                // =========================
-// TeaCat Health Overview
-// =========================
-
-const currentWeight = document.getElementById("currentWeight");
-const currentVaccine = document.getElementById("currentVaccine");
-
-if (Array.isArray(data) && data.length > 0) {
-
-    const pet = data[0];
-
-    if (currentWeight) {
-        currentWeight.textContent = pet.weight + " kg";
+    if (!petList) {
+        return;
     }
 
-    if (currentVaccine) {
-        currentVaccine.textContent = pet.vaccine || "尚無資料";
-    }
 
-} else {
+    petList.innerHTML = `
+        <p class="loading">
+            正在載入寵物資料...
+        </p>
+    `;
 
-    if (currentWeight) {
-        currentWeight.textContent = "-- kg";
-    }
 
-    if (currentVaccine) {
-        currentVaccine.textContent = "尚無資料";
-    }
+    fetch("/pets", {
+
+        method: "GET",
+
+        headers: {
+            "Authorization":
+                "Bearer " + token
+        }
+
+    })
+
+    .then(async function (response) {
+
+        if (response.status === 401) {
+
+            localStorage.removeItem(
+                "token"
+            );
+
+            window.location.replace(
+                "/login.html"
+            );
+
+            throw new Error(
+                "登入狀態已失效"
+            );
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "無法取得寵物資料"
+            );
+        }
+
+
+        return response.json();
+    })
+
+    .then(function (data) {
+
+        if (!Array.isArray(data)) {
+
+            throw new Error(
+                "寵物資料格式錯誤"
+            );
+        }
+
+
+        // =========================
+        // Health Overview
+        // =========================
+
+        updateHealthOverview(data);
+
+
+        // =========================
+        // Empty Pets
+        // =========================
+
+        if (data.length === 0) {
+
+            petList.innerHTML = `
+                <div class="empty-state">
+
+                    <p>
+                        目前還沒有寵物資料
+                    </p>
+
+                    <span>
+                        前往「我的寵物」建立第一份毛孩資料。
+                    </span>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        // =========================
+        // Render Pets
+        // =========================
+
+        petList.innerHTML = "";
+
+
+        data.forEach(function (pet) {
+
+            petList.innerHTML +=
+                createPetCard(pet);
+
+        });
+
+
+        // =========================
+        // Pets Page Actions
+        // =========================
+
+        if (isPetsPage) {
+
+            bindDeleteButtons();
+            bindEditButtons(data);
+        }
+
+    })
+
+    .catch(function (error) {
+
+        console.error(
+            "Load Pets Error:",
+            error
+        );
+
+
+        if (
+            error.message ===
+            "登入狀態已失效"
+        ) {
+            return;
+        }
+
+
+        petList.innerHTML = `
+            <div class="empty-state">
+
+                <p>
+                    寵物資料載入失敗
+                </p>
+
+                <span>
+                    請稍後重新整理頁面。
+                </span>
+
+            </div>
+        `;
+
+    });
 }
 
-                const petList = document.getElementById("petList");
 
-                petList.innerHTML = "";
+// =========================
+// Create Pet Card
+// =========================
 
-                data.forEach(function (pet) {
+function createPetCard(pet) {
 
-    petList.innerHTML += `
-        <div class="pet-item">
-
-            <div class="pet-avatar">
-                ${
-                    pet.photo
-                        ? `<img src="${pet.photo}" class="pet-photo" alt="${pet.name}">`
-                        : `<div class="pet-photo-placeholder">🐱</div>`
-                }
+    const photoHtml = pet.photo
+        ? `
+            <img
+                src="${pet.photo}"
+                class="pet-photo"
+                alt="${pet.name}">
+        `
+        : `
+            <div class="pet-photo-placeholder">
+                🐱
             </div>
+        `;
 
-            <div class="pet-info">
-                <div class="pet-name-row">
-                    <h3>${pet.name}</h3>
-                    <span class="pet-status">健康資料</span>
-                </div>
 
-                <div class="pet-details">
-                    <span>🎂 ${pet.age} 歲</span>
-                    <span>⚖️ ${pet.weight} kg</span>
-                    <span>💉 ${pet.vaccine ?? "尚無疫苗資料"}</span>
-                </div>
-            </div>
+    let actionHtml = "";
 
+
+    if (isPetsPage) {
+
+        actionHtml = `
             <div class="pet-actions">
+
                 <button
                     class="editPetButton btn-secondary"
                     data-id="${pet.id}">
@@ -260,180 +487,649 @@ if (Array.isArray(data) && data.length > 0) {
                     data-id="${pet.id}">
                     刪除
                 </button>
+
             </div>
+        `;
+
+    } else if (isDashboardPage) {
+
+        actionHtml = `
+            <div class="pet-actions">
+
+                <a
+                    href="/pets.html"
+                    class="pet-manage-link">
+                    管理寵物
+                </a>
+
+            </div>
+        `;
+    }
+
+
+    return `
+        <div class="pet-item">
+
+            <div class="pet-avatar">
+                ${photoHtml}
+            </div>
+
+
+            <div class="pet-info">
+
+                <div class="pet-name-row">
+
+                    <h3>
+                        ${pet.name}
+                    </h3>
+
+                    <span class="pet-status">
+                        健康資料
+                    </span>
+
+                </div>
+
+
+                <div class="pet-details">
+
+                    <span>
+                        🎂 ${pet.age} 歲
+                    </span>
+
+                    <span>
+                        ⚖️ ${pet.weight} kg
+                    </span>
+
+                    <span>
+                        💉 ${pet.vaccine ?? "尚無疫苗資料"}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            ${actionHtml}
 
         </div>
     `;
-
-});
-
-                // 綁定 Delete Button
-                const deleteButtons = document.querySelectorAll(".deletePetButton");
-
-                deleteButtons.forEach(function (button) {
-
-                    button.addEventListener("click", function () {
-
-                        const petId = button.dataset.id;
-
-                        console.log("Delete Pet:", petId);
-
-                        const token = localStorage.getItem("token");
-
-                        fetch("/pets/" + petId, {
-                            method: "DELETE",
-                            headers: {
-                                "Authorization": "Bearer " + token
-                            }
-                        })
-                            .then(response => {
-
-                                console.log("Delete Status:", response.status);
-
-                                if (response.ok) {
-
-                                    loadPetsButton.click();
-
-                                } else {
-
-                                    alert("Delete Failed");
-
-                                }
-
-                            });
-
-                    });
-
-                });
-
-
-// =========================
-// 綁定 Edit Button
-// =========================
-
-                const editButtons = document.querySelectorAll(".editPetButton");
-
-                editButtons.forEach(function (button) {
-
-                    button.addEventListener("click", function () {
-
-                        const petId = Number(button.dataset.id);
-
-                        const pet = data.find(function (item) {
-                            return item.id === petId;
-                        });
-
-                        console.log("Edit Pet:", pet);
-
-                        editPetId = pet.id;
-
-                        document.getElementById("petName").value = pet.name;
-                        document.getElementById("petAge").value = pet.age;
-                        document.getElementById("petWeight").value = pet.weight;
-                        document.getElementById("petVaccine").value = pet.vaccine ?? "";
-
-                        addPetButton.textContent = "更新寵物";
-
-                    });
-
-                });
-
-    });
-
 }
 
 
 // =========================
-// Add Pet
+// Health Overview
 // =========================
 
-const addPetButton = document.getElementById("addPetButton");
+function updateHealthOverview(data) {
+
+    const currentWeight =
+        document.getElementById(
+            "currentWeight"
+        );
+
+    const currentVaccine =
+        document.getElementById(
+            "currentVaccine"
+        );
+
+
+    if (
+        Array.isArray(data) &&
+        data.length > 0
+    ) {
+
+        const pet = data[0];
+
+
+        if (currentWeight) {
+
+            currentWeight.textContent =
+                pet.weight + " kg";
+        }
+
+
+        if (currentVaccine) {
+
+            currentVaccine.textContent =
+                pet.vaccine ||
+                "尚無資料";
+        }
+
+    } else {
+
+        if (currentWeight) {
+
+            currentWeight.textContent =
+                "-- kg";
+        }
+
+
+        if (currentVaccine) {
+
+            currentVaccine.textContent =
+                "尚無資料";
+        }
+    }
+}
+
+
+// =========================
+// Delete Pet
+// =========================
+
+function bindDeleteButtons() {
+
+    const deleteButtons =
+        document.querySelectorAll(
+            ".deletePetButton"
+        );
+
+
+    deleteButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const petId =
+                        button.dataset.id;
+
+
+                    const confirmed =
+                        confirm(
+                            "確定要刪除這隻寵物嗎？"
+                        );
+
+
+                    if (!confirmed) {
+                        return;
+                    }
+
+
+                    const token =
+                        localStorage.getItem(
+                            "token"
+                        );
+
+
+                    fetch(
+                        "/pets/" + petId,
+                        {
+
+                            method: "DELETE",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    token
+                            }
+
+                        }
+                    )
+
+                    .then(function (response) {
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "刪除失敗"
+                            );
+                        }
+
+
+                        loadPets();
+
+                    })
+
+                    .catch(function (error) {
+
+                        console.error(
+                            "Delete Pet Error:",
+                            error
+                        );
+
+                        alert(
+                            "刪除寵物失敗"
+                        );
+
+                    });
+
+                }
+            );
+
+        }
+    );
+}
+
+
+// =========================
+// Edit Pet
+// =========================
+
+function bindEditButtons(data) {
+
+    const editButtons =
+        document.querySelectorAll(
+            ".editPetButton"
+        );
+
+
+    editButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const petId =
+                        Number(
+                            button.dataset.id
+                        );
+
+
+                    const pet =
+                        data.find(
+                            function (item) {
+
+                                return (
+                                    item.id === petId
+                                );
+                            }
+                        );
+
+
+                    if (!pet) {
+                        return;
+                    }
+
+
+                    editPetId = pet.id;
+
+
+                    const petName =
+                        document.getElementById(
+                            "petName"
+                        );
+
+                    const petAge =
+                        document.getElementById(
+                            "petAge"
+                        );
+
+                    const petWeight =
+                        document.getElementById(
+                            "petWeight"
+                        );
+
+                    const petVaccine =
+                        document.getElementById(
+                            "petVaccine"
+                        );
+
+
+                    if (petName) {
+                        petName.value =
+                            pet.name ?? "";
+                    }
+
+
+                    if (petAge) {
+                        petAge.value =
+                            pet.age ?? "";
+                    }
+
+
+                    if (petWeight) {
+                        petWeight.value =
+                            pet.weight ?? "";
+                    }
+
+
+                    if (petVaccine) {
+                        petVaccine.value =
+                            pet.vaccine ?? "";
+                    }
+
+
+                    if (addPetButton) {
+
+                        addPetButton.textContent =
+                            "更新寵物";
+                    }
+
+
+                    const petForm =
+                        document.querySelector(
+                            ".pet-form"
+                        );
+
+
+                    if (petForm) {
+
+                        petForm.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+                    }
+
+                }
+            );
+
+        }
+    );
+}
+
+
+// =========================
+// Add / Update Pet
+// =========================
+
+const addPetButton =
+    document.getElementById("addPetButton");
+
 
 if (addPetButton) {
 
-    addPetButton.addEventListener("click", function () {
+    addPetButton.addEventListener(
+        "click",
+        function () {
 
-        const petName = document.getElementById("petName").value;
-        const petAge = document.getElementById("petAge").value;
-        const petWeight = document.getElementById("petWeight").value;
-        const petVaccine = document.getElementById("petVaccine").value;
-        const petPhoto = document.getElementById("petPhoto").files[0];
+            const petNameInput =
+                document.getElementById(
+                    "petName"
+                );
 
-        console.log("Add Pet Clicked");
-        console.log("Name:", petName);
-        console.log("Age:", petAge);
-        console.log("Weight:", petWeight);
-        console.log("Vaccine:",petVaccine);
+            const petAgeInput =
+                document.getElementById(
+                    "petAge"
+                );
 
-        const token = localStorage.getItem("token");
+            const petWeightInput =
+                document.getElementById(
+                    "petWeight"
+                );
 
-        const url = editPetId === null
-            ? "/pets"
-            : "/pets/" + editPetId;
+            const petVaccineInput =
+                document.getElementById(
+                    "petVaccine"
+                );
 
-        const method = editPetId === null
-            ? "POST"
-            : "PUT";
+            const petPhotoInput =
+                document.getElementById(
+                    "petPhoto"
+                );
 
-        if (petPhoto) {
 
-            const formData = new FormData();
-            formData.append("file", petPhoto);
+            const petName =
+                petNameInput.value.trim();
 
-            fetch("/upload", {
-                method: "POST",
-                body: formData
-            })
-                .then(response => response.text())
-                .then(photoPath => {
+            const petAge =
+                petAgeInput.value;
+
+            const petWeight =
+                petWeightInput.value;
+
+            const petVaccine =
+                petVaccineInput.value;
+
+            const petPhoto =
+                petPhotoInput.files[0];
+
+
+            // =========================
+            // Validation
+            // =========================
+
+            if (!petName) {
+
+                alert(
+                    "請輸入寵物名稱"
+                );
+
+                return;
+            }
+
+
+            if (!petAge) {
+
+                alert(
+                    "請輸入寵物年齡"
+                );
+
+                return;
+            }
+
+
+            if (!petWeight) {
+
+                alert(
+                    "請輸入寵物體重"
+                );
+
+                return;
+            }
+
+
+            const token =
+                localStorage.getItem(
+                    "token"
+                );
+
+
+            const url =
+                editPetId === null
+                    ? "/pets"
+                    : "/pets/" + editPetId;
+
+
+            const method =
+                editPetId === null
+                    ? "POST"
+                    : "PUT";
+
+
+            addPetButton.disabled = true;
+
+            addPetButton.textContent =
+                editPetId === null
+                    ? "新增中..."
+                    : "更新中...";
+
+
+            // =========================
+            // Upload Photo
+            // =========================
+
+            if (petPhoto) {
+
+                const formData =
+                    new FormData();
+
+                formData.append(
+                    "file",
+                    petPhoto
+                );
+
+
+                fetch("/upload", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    },
+
+                    body: formData
+
+                })
+
+                .then(function (response) {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "照片上傳失敗"
+                        );
+                    }
+
+
+                    return response.text();
+                })
+
+                .then(function (photoPath) {
 
                     savePet(photoPath);
 
+                })
+
+                .catch(function (error) {
+
+                    console.error(
+                        "Upload Error:",
+                        error
+                    );
+
+                    alert(
+                        "照片上傳失敗"
+                    );
+
+                    resetPetButton();
+
                 });
 
-        } else {
+            } else {
 
-            savePet("");
+                savePet("");
+            }
 
-        }
 
-        function savePet(photoPath) {
+            // =========================
+            // Save Pet
+            // =========================
 
-            fetch(url, {
-                method: method,
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token
-                },
-                body: JSON.stringify({
-                    name: petName,
-                    age: Number(petAge),
-                    weight: Number(petWeight),
-                    vaccine: petVaccine,
-                    photo: photoPath
+            function savePet(photoPath) {
+
+                fetch(url, {
+
+                    method: method,
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    },
+
+                    body: JSON.stringify({
+
+                        name: petName,
+
+                        age:
+                            Number(petAge),
+
+                        weight:
+                            Number(petWeight),
+
+                        vaccine:
+                            petVaccine,
+
+                        photo:
+                            photoPath
+
+                    })
+
                 })
-            })
-                .then(response => response.json())
-                .then(data => {
 
-                    console.log("Add Pet Response:", data);
+                .then(async function (response) {
+
+                    if (!response.ok) {
+
+                        let message =
+                            "儲存寵物資料失敗";
+
+
+                        try {
+
+                            const errorData =
+                                await response.json();
+
+                            message =
+                                errorData.message ||
+                                message;
+
+                        } catch (error) {
+
+                            // Response may not be JSON.
+                        }
+
+
+                        throw new Error(
+                            message
+                        );
+                    }
+
+
+                    return response.json();
+                })
+
+                .then(function () {
 
                     editPetId = null;
 
-                    document.getElementById("petName").value = "";
-                    document.getElementById("petAge").value = "";
-                    document.getElementById("petWeight").value = "";
-                    document.getElementById("petVaccine").value = "";
-                    document.getElementById("petPhoto").value = "";
 
-                    addPetButton.textContent = "新增寵物";
+                    petNameInput.value = "";
+                    petAgeInput.value = "";
+                    petWeightInput.value = "";
+                    petVaccineInput.value = "";
+                    petPhotoInput.value = "";
 
-                    loadPetsButton.click();
+
+                    resetPetButton();
+
+
+                    loadPets();
+
+                })
+
+                .catch(function (error) {
+
+                    console.error(
+                        "Save Pet Error:",
+                        error
+                    );
+
+                    alert(
+                        error.message ||
+                        "儲存寵物資料失敗"
+                    );
+
+
+                    resetPetButton();
 
                 });
+            }
+
+
+            // =========================
+            // Reset Button
+            // =========================
+
+            function resetPetButton() {
+
+                addPetButton.disabled =
+                    false;
+
+                addPetButton.textContent =
+                    editPetId === null
+                        ? "新增寵物"
+                        : "更新寵物";
+            }
 
         }
-
-    });
-
+    );
 }
