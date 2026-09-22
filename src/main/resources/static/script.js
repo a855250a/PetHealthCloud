@@ -129,6 +129,15 @@ if (guestLoginButton) {
 // Dashboard
 // =========================
 
+const logoutButton = document.getElementById("logoutButton");
+
+if (logoutButton) {
+    logoutButton.addEventListener("click", function () {
+        localStorage.removeItem("token");
+        window.location.href = "/login.html";
+    });
+}
+
 const loadPetsButton = document.getElementById("loadPetsButton");
 
 if (loadPetsButton) {
