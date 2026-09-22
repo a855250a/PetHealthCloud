@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TeaCat｜我的寵物</title>
+
+    <link rel="stylesheet" href="style.css?v=0.7.1">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <header class="dashboard-header">
+
+        <!-- TeaCat Brand -->
+        <a href="/dashboard.html" class="brand">
+            <div>
+                <h1>🐾 TeaCat</h1>
+                <p>Pet Health, Made Simple.</p>
+            </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+
+            <a href="/dashboard.html">
+                首頁
+            </a>
+
+            <a href="/pets.html" class="active">
+                我的寵物
+            </a>
+
+            <a href="/records.html">
+                健康紀錄
+            </a>
+
+            <a href="/ai.html">
+                TeaCat AI
+            </a>
+
+        </nav>
+
+        <!-- Logout -->
+        <button id="logoutButton" class="logout-button">
+            登出
+        </button>
+
+    </header>
+
+
+    <!-- Page Title -->
+    <section class="welcome-section">
+
+        <h2>我的寵物</h2>
+
+        <p>
+            管理毛孩的基本資料與健康資訊。
+        </p>
+
+    </section>
+
+
+    <!-- Pet List -->
+    <section class="card pet-profile-card">
+
+        <div class="section-header">
+
+            <div>
+
+                <span class="section-label">
+                    MY PETS
+                </span>
+
+                <h2>
+                    寵物列表
+                </h2>
+
+            </div>
+
+            <button id="loadPetsButton">
+                重新整理
+            </button>
+
+        </div>
+
+
+        <div id="petList">
+
+            <p class="loading">
+                正在載入寵物資料...
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Add Pet -->
+    <section class="card add-pet-card">
+
+        <div class="section-title">
+
+            <h2>
+                新增寵物
+            </h2>
+
+            <p>
+                建立新的毛孩健康檔案
+            </p>
+
+        </div>
+
+
+        <div class="pet-form">
+
+            <!-- Name -->
+            <label for="petName">
+                名字
+            </label>
+
+            <input
+                id="petName"
+                type="text"
+                placeholder="例如：茶茶"
+            >
+
+
+            <!-- Age -->
+            <label for="petAge">
+                年齡
+            </label>
+
+            <input
+                id="petAge"
+                type="number"
+                placeholder="例如：1"
+            >
+
+
+            <!-- Weight -->
+            <label for="petWeight">
+                體重（kg）
+            </label>
+
+            <input
+                id="petWeight"
+                type="number"
+                step="0.1"
+                placeholder="例如：3.4"
+            >
+
+
+            <!-- Vaccine -->
+            <label for="petVaccine">
+                疫苗紀錄
+            </label>
+
+            <input
+                id="petVaccine"
+                type="text"
+                placeholder="例如：三合一疫苗"
+            >
+
+
+            <!-- Photo -->
+            <label for="petPhoto">
+                寵物照片
+            </label>
+
+            <input
+                id="petPhoto"
+                type="file"
+                accept="image/*"
+            >
+
+
+            <!-- Add / Update -->
+            <button id="addPetButton">
+                新增寵物
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================
+     Mobile Bottom Navigation
+========================= -->
+
+<nav class="mobile-bottom-nav">
+
+    <a href="/dashboard.html">
+
+        <span>🏠</span>
+        <small>首頁</small>
+
+    </a>
+
+
+    <a href="/pets.html" class="active">
+
+        <span>🐾</span>
+        <small>寵物</small>
+
+    </a>
+
+
+    <a href="/records.html">
+
+        <span>📋</span>
+        <small>紀錄</small>
+
+    </a>
+
+
+    <a href="/ai.html">
+
+        <span>✨</span>
+        <small>AI</small>
+
+    </a>
+
+</nav>
+
+
+<script src="script.js?v=0.7.1"></script>
+
+</body>
+
+</html>
