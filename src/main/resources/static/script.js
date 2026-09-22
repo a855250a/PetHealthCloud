@@ -1,13 +1,28 @@
+console.log("script.js loaded");
+
+let editPetId = null;
+
+// =========================
+// Authentication Guard
+// =========================
+
 const isDashboard = window.location.pathname.includes("dashboard.html");
 
 if (isDashboard) {
     const token = localStorage.getItem("token");
 
+    console.log("Auth Guard Token:", token);
+
     if (!token || token === "null" || token === "undefined") {
+        console.log("No valid token, redirecting to login...");
         localStorage.removeItem("token");
         window.location.replace("/login.html");
     }
 }
+
+// =========================
+// Login
+// =========================
 // =========================
 // Login
 // =========================
