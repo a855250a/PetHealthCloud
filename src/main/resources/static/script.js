@@ -1,18 +1,11 @@
-console.log("script.js loaded");
-
-let editPetId = null;
-
-// =========================
-// Authentication Guard
-// =========================
-
 const isDashboard = window.location.pathname.includes("dashboard.html");
 
 if (isDashboard) {
     const token = localStorage.getItem("token");
 
-    if (!token) {
-        window.location.href = "/login.html";
+    if (!token || token === "null" || token === "undefined") {
+        localStorage.removeItem("token");
+        window.location.replace("/login.html");
     }
 }
 // =========================
@@ -45,27 +38,43 @@ if (loginButton) {
         console.log(password);
 
         fetch("/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        email: email,
+        password: password
+    })
+})
+.then(async response => {
 
-                console.log("Login Response:", data);
+    const data = await response.json();
 
-                localStorage.setItem("token", data.token);
+    if (!response.ok || !data.token) {
+        throw new Error(data.message || "帳號或密碼錯誤");
+    }
 
-                console.log("Token Saved");
+    return data;
+})
+.then(data => {
 
-                window.location.href = "/dashboard.html";
+    console.log("Login Success");
 
-            });
+    localStorage.setItem("token", data.token);
+
+    window.location.href = "/dashboard.html";
+
+})
+.catch(error => {
+
+    console.error("Login Error:", error);
+
+    localStorage.removeItem("token");
+
+    alert("登入失敗，請確認帳號與密碼");
+
+});
 
     });
 
