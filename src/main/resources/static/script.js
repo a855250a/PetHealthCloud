@@ -1,7 +1,20 @@
 console.log("script.js loaded");
 
-let  editPetId = null;
+let editPetId = null;
 
+// =========================
+// Authentication Guard
+// =========================
+
+const isDashboard = window.location.pathname.includes("dashboard.html");
+
+if (isDashboard) {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "/login.html";
+    }
+}
 // =========================
 // Login
 // =========================
