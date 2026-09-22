@@ -714,3 +714,302 @@ label{
         flex:1;
     }
 }
+
+/* ===========================
+   TeaCat v0.7.1
+   Responsive Navigation
+=========================== */
+
+
+/* ===========================
+   Brand
+=========================== */
+
+.brand{
+    text-decoration:none;
+    color:inherit;
+    flex-shrink:0;
+}
+
+.brand h1{
+    color:var(--primary);
+}
+
+.brand p{
+    color:var(--sub);
+}
+
+
+/* ===========================
+   Desktop Navigation
+=========================== */
+
+.desktop-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    margin:0 20px;
+}
+
+.desktop-nav a{
+    text-decoration:none;
+
+    color:var(--sub);
+
+    padding:9px 12px;
+
+    border-radius:10px;
+
+    font-size:14px;
+    font-weight:600;
+
+    white-space:nowrap;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.desktop-nav a:hover{
+    background:var(--primary-soft);
+    color:var(--primary);
+
+    transform:translateY(-1px);
+}
+
+.desktop-nav a.active{
+    background:var(--primary-soft);
+    color:var(--primary);
+}
+
+
+/* ===========================
+   Manage Pet Link
+=========================== */
+
+.pet-manage-link{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    text-decoration:none;
+
+    background:var(--primary);
+    color:white;
+
+    border-radius:12px;
+
+    padding:10px 16px;
+
+    font-size:14px;
+    font-weight:500;
+
+    white-space:nowrap;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.pet-manage-link:hover{
+    background:var(--primary-dark);
+
+    transform:translateY(-1px);
+}
+
+
+/* ===========================
+   Mobile Bottom Navigation
+=========================== */
+
+.mobile-bottom-nav{
+    display:none;
+}
+
+
+/* ===========================
+   Tablet / Mobile Navigation
+=========================== */
+
+@media(max-width:768px){
+
+    /* Desktop nav disappears */
+    .desktop-nav{
+        display:none;
+    }
+
+
+    /* Bottom Navigation */
+    .mobile-bottom-nav{
+
+        position:fixed;
+
+        left:50%;
+        bottom:10px;
+
+        transform:translateX(-50%);
+
+        z-index:200;
+
+        width:min(94%,520px);
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(4,1fr);
+
+        gap:4px;
+
+        background:
+            rgba(255,255,255,.96);
+
+        border:
+            1px solid var(--border);
+
+        border-radius:18px;
+
+        box-shadow:
+            0 10px 30px
+            rgba(0,0,0,.12);
+
+        backdrop-filter:
+            blur(12px);
+
+        -webkit-backdrop-filter:
+            blur(12px);
+
+        padding:7px;
+    }
+
+
+    .mobile-bottom-nav a{
+
+        min-height:52px;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+        justify-content:center;
+
+        gap:3px;
+
+        text-decoration:none;
+
+        color:var(--sub);
+
+        border-radius:12px;
+
+        transition:
+            background .2s ease,
+            color .2s ease;
+    }
+
+
+    .mobile-bottom-nav a span{
+
+        font-size:20px;
+
+        line-height:1;
+    }
+
+
+    .mobile-bottom-nav a small{
+
+        font-size:11px;
+
+        line-height:1.2;
+    }
+
+
+    .mobile-bottom-nav a:hover{
+
+        background:var(--primary-soft);
+
+        color:var(--primary);
+    }
+
+
+    .mobile-bottom-nav a.active{
+
+        background:var(--primary-soft);
+
+        color:var(--primary);
+
+        font-weight:700;
+    }
+
+
+    /* Prevent bottom navigation
+       from covering page content */
+    body{
+        padding-bottom:85px;
+    }
+
+
+    /* Header only keeps
+       TeaCat + Logout */
+    .dashboard-header{
+        gap:12px;
+    }
+
+
+    /* Manage button */
+    .pet-manage-link{
+        width:100%;
+    }
+
+}
+
+
+/* ===========================
+   Small Mobile
+=========================== */
+
+@media(max-width:480px){
+
+    .mobile-bottom-nav{
+
+        width:94%;
+
+        bottom:8px;
+
+        padding:6px;
+
+        border-radius:16px;
+    }
+
+
+    .mobile-bottom-nav a{
+
+        min-height:50px;
+
+        border-radius:11px;
+    }
+
+
+    .mobile-bottom-nav a span{
+
+        font-size:19px;
+    }
+
+
+    .mobile-bottom-nav a small{
+
+        font-size:10px;
+    }
+
+
+    .pet-manage-link{
+
+        width:100%;
+
+        padding:11px 16px;
+    }
+
+}
