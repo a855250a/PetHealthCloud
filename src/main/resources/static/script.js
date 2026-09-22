@@ -23,9 +23,6 @@ if (isDashboard) {
 // =========================
 // Login
 // =========================
-// =========================
-// Login
-// =========================
 
 const loginButton = document.getElementById("loginButton");
 
