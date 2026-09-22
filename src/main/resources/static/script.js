@@ -163,9 +163,15 @@ const loadPetsButton = document.getElementById("loadPetsButton");
 
 if (loadPetsButton) {
 
-    loadPetsButton.addEventListener("click", function () {
+    loadPetsButton.addEventListener("click", loadPets);
 
-        console.log("Load My Pets Clicked");
+    // 進入 Dashboard 後自動載入寵物
+    loadPets();
+}
+
+function loadPets() {
+
+    console.log("Load My Pets");
 
         const token = localStorage.getItem("token");
 
@@ -181,6 +187,36 @@ if (loadPetsButton) {
             .then(data => {
 
                 console.log("Pets:", data);
+
+                // =========================
+// TeaCat Health Overview
+// =========================
+
+const currentWeight = document.getElementById("currentWeight");
+const currentVaccine = document.getElementById("currentVaccine");
+
+if (Array.isArray(data) && data.length > 0) {
+
+    const pet = data[0];
+
+    if (currentWeight) {
+        currentWeight.textContent = pet.weight + " kg";
+    }
+
+    if (currentVaccine) {
+        currentVaccine.textContent = pet.vaccine || "尚無資料";
+    }
+
+} else {
+
+    if (currentWeight) {
+        currentWeight.textContent = "-- kg";
+    }
+
+    if (currentVaccine) {
+        currentVaccine.textContent = "尚無資料";
+    }
+}
 
                 const petList = document.getElementById("petList");
 
